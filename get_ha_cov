@@ -1,10 +1,23 @@
-SELECT s.cdc_id,
+select * from
+(SELECT s.cdc_id,
        i.ngs_subtype,
        count(*)
 FROM disc_denorm_specimen s
 INNER JOIN disc_denorm_isolate i USING (cdc_id)
-WHERE ngs_subtype like "H1N1%" OR ngs_subtype like "H3N2%"
 GROUP BY s.cdc_id,
          i.ngs_subtype
-HAVING count(*) =2
-Limit 5
+HAVING count(*) =2) AS b1
+WHERE ngs_subtype like "H1N1%"
+limit 3
+union
+select * from
+(SELECT s.cdc_id,
+       i.ngs_subtype,
+       count(*)
+FROM disc_denorm_specimen s
+INNER JOIN disc_denorm_isolate i USING (cdc_id)
+GROUP BY s.cdc_id,
+         i.ngSs_subtype
+HAVING count(*) =2) AS b2
+WHERE ngs_subtype like "H3N2%"
+limit 2
