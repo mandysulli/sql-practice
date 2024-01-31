@@ -1,0 +1,10 @@
+SELECT s.cdc_id,
+       i.ngs_subtype,
+       count(*)
+FROM disc_denorm_specimen s
+INNER JOIN disc_denorm_isolate i USING (cdc_id)
+WHERE ngs_subtype like "H1N1%" OR ngs_subtype like "H3N2%"
+GROUP BY s.cdc_id,
+         i.ngs_subtype
+HAVING count(*) =2
+Limit 5
