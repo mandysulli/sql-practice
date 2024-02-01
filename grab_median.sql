@@ -1,8 +1,21 @@
-SELECT count(depth) from
-(SELECt sample_id, gene, depth, `position`
+SELECT b.depth,
+       count(b.depth) AS x
+       
+FROM
+  (SELECT sample_id,
+          gene,
+          depth,
+          `position`
    FROM coverage
-   where sample_id like "3004157422%v1" and gene like "%HA%"
-   ORDER BY depth) as b
+   WHERE sample_id like "3004157422%v1"
+     AND gene like "%HA%"
+   GROUP BY sample_id,
+            gene,
+            depth,
+            `position`) as b
+ORDER BY b.depth
+offset round(x/2)
+fetch next 1 row only
 
 
 #Note this is a sample that should have 2 isolates for the one cdc_id, but that's not really working yet...
