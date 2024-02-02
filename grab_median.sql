@@ -1,5 +1,4 @@
-SELECT b.depth,
-       count(b.depth) AS x
+SELECT  appx_median(b.depth)
        
 FROM
   (SELECT sample_id,
@@ -12,10 +11,8 @@ FROM
    GROUP BY sample_id,
             gene,
             depth,
-            `position`) as b
-ORDER BY b.depth
-offset round(x/2)
-fetch next 1 row only
+            `position`
+            ORDER BY depth) as b
 
 
 #Note this is a sample that should have 2 isolates for the one cdc_id, but that's not really working yet...
