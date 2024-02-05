@@ -1,18 +1,13 @@
-SELECT  appx_median(b.depth)
-       
-FROM
-  (SELECT sample_id,
+  SELECT sample_id,
           gene,
-          depth,
-          `position`
+          appx_median(depth)
    FROM coverage
    WHERE sample_id like "3004157422%v1"
      AND gene like "%HA%"
    GROUP BY sample_id,
-            gene,
-            depth,
-            `position`
-            ORDER BY depth) as b
+            gene;
 
 
 #Note this is a sample that should have 2 isolates for the one cdc_id, but that's not really working yet...
+# something wrong with the join - the null mean that it's not getting joined to anything
+#check the sub queries
